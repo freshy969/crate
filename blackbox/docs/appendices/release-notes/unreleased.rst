@@ -51,6 +51,10 @@ None
 Fixes
 =====
 
+- Fixed an issue that will prevent CrateDB from bootstrapping when running on
+  java 8 and a javaagent is specificed using ``JAVA_OPTS`` or
+  ``CRATE_JAVA_OPTS``.
+
 - Increased the precedence of the double colon cast operator, so that a
   statement like ``x::double / y::double`` applies both casts before the
   division.
