@@ -23,27 +23,50 @@
 package io.crate.analyze;
 
 import com.google.common.annotations.VisibleForTesting;
+<<<<<<< HEAD
 import io.crate.analyze.relations.QueriedRelation;
 import io.crate.metadata.RelationName;
+=======
+import io.crate.analyze.relations.AnalyzedRelation;
+>>>>>>> f2fef62988... Resolve parameters in view definitions when the view is created
 import io.crate.auth.user.User;
+import io.crate.metadata.RelationName;
+import io.crate.sql.tree.Query;
 
 import javax.annotation.Nullable;
 
 public final class CreateViewStmt implements AnalyzedStatement {
 
     private final RelationName name;
+<<<<<<< HEAD
     private final QueriedRelation query;
     private final String formattedQuery;
+=======
+    private final AnalyzedRelation analyzedQuery;
+    private final Query query;
+>>>>>>> f2fef62988... Resolve parameters in view definitions when the view is created
     private final boolean replaceExisting;
     @Nullable
     private final User owner;
 
+<<<<<<< HEAD
     CreateViewStmt(RelationName name, QueriedRelation query, String formattedQuery, boolean replaceExisting, @Nullable User owner) {
+=======
+    CreateViewStmt(RelationName name,
+                   AnalyzedRelation analyzedQuery,
+                   Query query,
+                   boolean replaceExisting,
+                   @Nullable User owner) {
+>>>>>>> f2fef62988... Resolve parameters in view definitions when the view is created
         this.name = name;
+        this.analyzedQuery = analyzedQuery;
         this.query = query;
-        this.formattedQuery = formattedQuery;
         this.replaceExisting = replaceExisting;
         this.owner = owner;
+    }
+
+    public Query query() {
+        return query;
     }
 
     public RelationName name() {
@@ -51,12 +74,17 @@ public final class CreateViewStmt implements AnalyzedStatement {
     }
 
     @VisibleForTesting
+<<<<<<< HEAD
     public QueriedRelation query() {
         return query;
     }
 
     public String formattedQuery() {
         return formattedQuery;
+=======
+    public AnalyzedRelation analyzedQuery() {
+        return analyzedQuery;
+>>>>>>> f2fef62988... Resolve parameters in view definitions when the view is created
     }
 
     public boolean replaceExisting() {

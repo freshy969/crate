@@ -57,8 +57,18 @@ public class CreateViewAnalyzerTest extends CrateDummyClusterServiceUnitTest {
         CreateViewStmt createView = e.analyze("create view v1 as select * from t1");
 
         assertThat(createView.name(), is(new RelationName(e.getSessionContext().searchPath().currentSchema(), "v1")));
+<<<<<<< HEAD
         assertThat(createView.query(), isSQL("QueriedTable{DocTableRelation{doc.t1}}"));
+=======
+        assertThat(createView.analyzedQuery(), isSQL("SELECT doc.t1.x"));
+>>>>>>> f2fef62988... Resolve parameters in view definitions when the view is created
         assertThat(createView.owner(), is(testUser));
+    }
+
+    @Test
+    public void testCreateViewIncludingParamPlaceholder() {
+        CreateViewStmt createView = e.analyze("create view v1 as select * from t1 where x = ?");
+        assertThat(createView.analyzedQuery(), isSQL("SELECT doc.t1.x WHERE (doc.t1.x = $1)"));
     }
 
     @Test
@@ -93,7 +103,7 @@ public class CreateViewAnalyzerTest extends CrateDummyClusterServiceUnitTest {
     @Test
     public void testAliasCanBeUsedToAvoidDuplicateColumnNamesInQuery() {
         CreateViewStmt createView = e.analyze("create view v1 as select x, x as y from t1");
-        assertThat(createView.query().fields(), contains(isField("x"), isField("y")));
+        assertThat(createView.analyzedQuery().fields(), contains(isField("x"), isField("y")));
     }
 
     @Test
